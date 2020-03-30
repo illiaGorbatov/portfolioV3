@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {createGlobalStyle} from "styled-components";
 
-function App() {
+const GlobalStyles = createGlobalStyle`
+    * {
+      box-sizing: border-box;
+    };
+    body {
+      background-color: white;
+      margin: 0;
+      padding: 0;
+      user-select: none
+    };
+   /* &::-webkit-scrollbar { 
+    display: none;
+    };
+    html {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+    scrollbar-height: none; 
+    }*/
+`;
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <GlobalStyles/>
   );
-}
+};
 
 export default App;
