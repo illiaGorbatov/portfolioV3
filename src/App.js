@@ -1,5 +1,11 @@
 import React from 'react';
 import {createGlobalStyle} from "styled-components";
+import styled from "styled-components";
+import {Canvas} from "react-three-fiber";
+import Cubes from "./components/cubes/index";
+import Lights from "./components/light/light";
+import Environment from "./components/environment/environment";
+
 
 const GlobalStyles = createGlobalStyle`
     * {
@@ -9,7 +15,7 @@ const GlobalStyles = createGlobalStyle`
       background-color: white;
       margin: 0;
       padding: 0;
-      user-select: none
+      user-select: none;
     };
    /* &::-webkit-scrollbar { 
     display: none;
@@ -21,10 +27,23 @@ const GlobalStyles = createGlobalStyle`
     }*/
 `;
 
+const Wrapper = styled.div`
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+`;
+
 const App = () => {
-  return (
-      <GlobalStyles/>
-  );
+    return (
+        <Wrapper>
+            <GlobalStyles/>
+            <Canvas>
+                <Cubes/>
+                <Lights/>
+                <Environment/>
+            </Canvas>
+        </Wrapper>
+    );
 };
 
 export default App;
