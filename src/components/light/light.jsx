@@ -13,8 +13,8 @@ export default () => {
     return (
         <group>
             <FakeSphere />
-            <ambientLight intensity={0.9} />
-            <pointLight intensity={1.20} position={[0, 0, 0]} />
+            <ambientLight intensity={0.7} />
+            <pointLight intensity={1.2} position={[0, 0, 0]}/>
         </group>
     );
 };

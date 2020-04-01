@@ -5,6 +5,7 @@ import {Canvas} from "react-three-fiber";
 import Cubes from "./components/cubes/index";
 import Lights from "./components/light/light";
 import Environment from "./components/environment/environment";
+import Controls from "./components/controls/controls";
 
 
 const GlobalStyles = createGlobalStyle`
@@ -41,6 +42,7 @@ const App = () => {
                 <Cubes/>
                 <Lights/>
                 <Environment/>
+                <Controls/>
             </Canvas>
         </Wrapper>
     );
