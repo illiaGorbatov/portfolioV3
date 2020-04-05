@@ -66,6 +66,7 @@ export default () => {
             onClick={e => onClick(e)}
             onPointerOver={e => onHover(e, true)}
             onPointerOut={e => onHover(e, false)}
+            castShadow
         >
             <boxBufferGeometry attach="geometry" args={[0.047, 0.5, 0.29]}/>
             <meshStandardMaterial

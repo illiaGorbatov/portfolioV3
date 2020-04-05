@@ -4,8 +4,9 @@ import styled from "styled-components";
 import {Canvas} from "react-three-fiber";
 import Cubes from "./components/cubes/index";
 import Lights from "./components/light/light";
-import Environment from "./components/environment/environment";
+import Environment from "./components/environment/floor";
 import Controls from "./components/controls/controls";
+import * as THREE from 'three';
 
 
 const GlobalStyles = createGlobalStyle`
@@ -38,10 +39,15 @@ const App = () => {
     return (
         <Wrapper>
             <GlobalStyles/>
-            <Canvas>
+            <Canvas
+                shadowMap
+                onCreated={({ gl, scene }) => {
+                    scene.background = new THREE.Color('#000');
+                    gl.shadowMap.type = THREE.PCFSoftShadowMap;
+                }}>
+                <Environment/>
                 <Cubes/>
                 <Lights/>
-                <Environment/>
                 <Controls/>
             </Canvas>
         </Wrapper>

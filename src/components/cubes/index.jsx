@@ -10,7 +10,7 @@ export default () => {
         group.current.rotation.y += 0.005;
     });
 
-    const nodesCubes = map(new Array(50), (el, i) => {
+    const nodesCubes = map(new Array(25), (el, i) => {
         return <Cube key={i} />;
     });
 

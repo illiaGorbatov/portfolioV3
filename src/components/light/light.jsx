@@ -1,20 +1,16 @@
 import React from "react";
+import * as THREE from "three";
 
 export default () => {
-    const FakeSphere = () => {
-        return (
-            <mesh>
-                <sphereBufferGeometry args={[0.7, 30, 30]} attach="geometry" />
-                <meshBasicMaterial color={0xfff1ef} attach="material" />
-            </mesh>
-        );
-    };
 
     return (
         <group>
-            <FakeSphere />
-            <ambientLight intensity={0.7} />
-            <pointLight intensity={1.2} position={[0, 0, 0]}/>
+            <spotLight intensity={1.2} position={[-10, 3, 10]}
+                       penumbra={0.5} angle={THREE.Math.degToRad(60)} color='violet' castShadow
+                       shadowMapWidth={2048} shadowMapHeight={2048}/>
+            <spotLight intensity={1.2} position={[10, 3, 10]}
+                       penumbra={0.5} angle={THREE.Math.degToRad(60)} color='blue' castShadow
+                       shadowMapWidth={2048} shadowMapHeight={2048}/>
         </group>
     );
 };
