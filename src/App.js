@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import {createGlobalStyle} from "styled-components";
 import styled from "styled-components";
 import {Canvas} from "react-three-fiber";
@@ -41,14 +41,16 @@ const App = () => {
             <GlobalStyles/>
             <Canvas
                 shadowMap
-                onCreated={({ gl, scene }) => {
+                onCreated={({gl, scene}) => {
                     scene.background = new THREE.Color('#000');
                     gl.shadowMap.type = THREE.PCFSoftShadowMap;
                 }}>
-                <Environment/>
-                <Cubes/>
-                <Lights/>
-                <Controls/>
+                <Suspense fallback={null}>
+                    <Environment/>
+                    <Cubes/>
+                    <Lights/>
+                    <Controls/>
+                </Suspense>
             </Canvas>
         </Wrapper>
     );
