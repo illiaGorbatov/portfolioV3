@@ -1,12 +1,8 @@
-import React, {Suspense} from 'react';
+import React from 'react';
 import {createGlobalStyle} from "styled-components";
 import styled from "styled-components";
-import {Canvas} from "react-three-fiber";
-import Cubes from "./components/cubes/index";
-import Lights from "./components/light/light";
-import Environment from "./components/environment/floor";
-import Controls from "./components/controls/controls";
-import * as THREE from 'three';
+import FirstScene from "./components/myFirstScene/firstScene";
+import Landscape from "./components/Landscape/landscape";
 
 
 const GlobalStyles = createGlobalStyle`
@@ -39,19 +35,7 @@ const App = () => {
     return (
         <Wrapper>
             <GlobalStyles/>
-            <Canvas
-                shadowMap
-                onCreated={({gl, scene}) => {
-                    scene.background = new THREE.Color('#000');
-                    gl.shadowMap.type = THREE.PCFSoftShadowMap;
-                }}>
-                <Suspense fallback={null}>
-                    <Environment/>
-                    <Cubes/>
-                    <Lights/>
-                    <Controls/>
-                </Suspense>
-            </Canvas>
+            <Landscape/>
         </Wrapper>
     );
 };
