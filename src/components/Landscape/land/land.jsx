@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import * as THREE from 'three';
 import {MainShader} from "../shaders/mainShader";
 import {useFrame, useLoader} from "react-three-fiber";
