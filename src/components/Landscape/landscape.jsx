@@ -27,7 +27,7 @@ const Landscape = () => {
             camera={{
                 fov: 65,
                 far: 2000000,
-                position: [0, 8, 4],
+                position: [0, 9, 4],
             }}>
             <fog attach="fog" args={['black', 0, 1000]}/>
             <ambientLight color={'white'} intensity={1}/>
