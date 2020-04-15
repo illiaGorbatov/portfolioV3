@@ -3,6 +3,7 @@ import {createGlobalStyle} from "styled-components";
 import styled from "styled-components";
 import FirstScene from "./components/myFirstScene/firstScene";
 import Landscape from "./components/Landscape/landscape";
+import Explosion from "./components/Explosion/Explosion";
 
 
 const GlobalStyles = createGlobalStyle`
@@ -33,10 +34,12 @@ const Wrapper = styled.div`
 
 const App = () => {
     return (
-        <Wrapper>
+        <>
             <GlobalStyles/>
-            <Landscape/>
-        </Wrapper>
+            <Wrapper>
+                <Explosion/>
+            </Wrapper>
+        </>
     );
 };
 
