@@ -1,6 +1,6 @@
 import React, {useCallback, useRef} from 'react';
 import * as THREE from 'three';
-import {SkyShader} from "../shaders/SkyShader";
+import {SkyShader} from "./shaders/SkyShader";
 
 const theta = Math.PI * (-0.03);
 const phi = 2 * Math.PI * (-.25);

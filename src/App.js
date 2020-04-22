@@ -1,8 +1,7 @@
 import React from 'react';
 import {createGlobalStyle} from "styled-components";
 import styled from "styled-components";
-import FirstScene from "./components/myFirstScene/firstScene";
-import Landscape from "./components/Landscape/landscape";
+import Road from "./components/Road/Road";
 import Explosion from "./components/Explosion/Explosion";
 
 
@@ -15,6 +14,8 @@ const GlobalStyles = createGlobalStyle`
       margin: 0;
       padding: 0;
       user-select: none;
+      outline: none;
+      
     };
    /* &::-webkit-scrollbar { 
     display: none;
