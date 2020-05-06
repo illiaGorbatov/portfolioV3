@@ -6,9 +6,9 @@ export const MainShader = {
         distortCenter: {type: "f", value: 0.1},
         roadWidth: {type: "f", value: 0.5},
         pallete: {type: "t", value: null},
-        speed: {type: "f", value: 1},
+        speed: {type: "f", value: 1.5},
         maxHeight: {type: "f", value: 10.0},
-        color: new THREE.Color(1, 1, 1)
+        color: new THREE.Color('black')
     },
 
     vertexShader: `vec3 mod289(vec3 x)

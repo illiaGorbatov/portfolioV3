@@ -1,8 +1,9 @@
-import React, {useMemo, useRef, useState} from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import * as THREE from 'three';
 import {carLightsFragment, carLightsVertex} from "./Shaders";
-import {turbulentDistortion} from "./Distortions";
+import {LongRaceDistortion} from "./Distortions";
 import {useFrame} from "react-three-fiber";
+import {getState, subscribe} from "../../utils/zustandStore";
 
 
 const random = base => {
@@ -29,23 +30,27 @@ const lerp = (current, target, speed = 0.1, limit = 0.001) => {
     return change;
 };
 
+const options = {
+    lightPairsPerRoadWay: 100,
+    roadWidth: 20,
+    lanesPerRoad: 3,
+    carLightsRadius: [0.05, 0.14],
+    carLightsLength: [400 * 0.03, 400 * 0.2],
+    speed: [-120, -160],
+    carWidthPercentage: [0.3, 0.5],
+    carShiftX: [-0.8, 0.8],
+    carFloorSeparation: [0, 5],
+    length: 400,
+    colors: [0xD856BF, 0x6750A2, 0xC247AC],
+    fade: new THREE.Vector2(0, 0.6),
+    distortion: LongRaceDistortion
+};
 
-const CarLights = (props) => {
 
-    const [options, setOptions] = useState({
-        lightPairsPerRoadWay: 80,
-        roadWidth: 20,
-        lanesPerRoad: 3,
-        carLightsRadius: [0.05, 0.14],
-        carLightsLength: [400 * 0.03, 400 * 0.2],
-        speed: [-120, -160],
-        carWidthPercentage: [0.3, 0.5],
-        carShiftX: [-0.8, 0.8],
-        carFloorSeparation: [0, 5],
-        length: 400,
-        colors: [0xD856BF, 0x6750A2, 0xC247AC],
-        fade: new THREE.Vector2(0, 0.4)
-    })
+const CarLights = () => {
+
+    const progress = useRef(getState().scrolled);
+    useEffect(() => subscribe(scr => (progress.current = scr), state => state.scrolled));
 
     const materialRef = useRef();
 
@@ -131,18 +136,19 @@ const CarLights = (props) => {
             transparent: true,
             uniforms: Object.assign(
                 {
+                    uColor: new THREE.Uniform(new THREE.Color(options.colors)),
                     uTime: new THREE.Uniform(0),
                     uTravelLength: new THREE.Uniform(options.length/*options.length*/),
                     uFade: new THREE.Uniform(options.fade)
                 },
                 fogUniforms,
-                turbulentDistortion.uniforms/*options.distortion.uniforms*/
+                options.distortion.uniforms/*options.distortion.uniforms*/
             )
         });
         material.onBeforeCompile = shader => {
             shader.vertexShader = shader.vertexShader.replace(
                 "#include <getDistortion_vertex>",
-                turbulentDistortion.getDistortion/*options.distortion.getDistortion*/
+                options.distortion.getDistortion/*options.distortion.getDistortion*/
             );
         };
         return material
@@ -164,28 +170,23 @@ const CarLights = (props) => {
 
         materialRef.current.uniforms.uTime.value = time
 
-        /*let updateCamera = false;
-        let fovChange = lerp(camera.fov, this.fovTarget, lerpPercentage);
+        let fovChange = lerp(camera.fov, 90 + 60 * progress.current , lerpPercentage);
         if (fovChange !== 0) {
-            this.camera.fov += fovChange * delta * 6;
-            updateCamera = true;
+            camera.fov += fovChange * delta * 6;
         }
 
-        if (this.options.distortion.getJS) {
-            const distortion = this.options.distortion.getJS(0.025, time);
+        if (options.distortion.getJS) {
+            const distortion = options.distortion.getJS(0.025, time);
 
-            this.camera.lookAt(
+            camera.lookAt(
                 new THREE.Vector3(
-                    this.camera.position.x + distortion.x,
-                    this.camera.position.y + distortion.y,
-                    this.camera.position.z + distortion.z
+                    camera.position.x + distortion.x,
+                    camera.position.y + distortion.y,
+                    camera.position.z + distortion.z
                 )
             );
-            updateCamera = true;
+            camera.updateProjectionMatrix();
         }
-        if (updateCamera) {
-            this.camera.updateProjectionMatrix();
-        }*/
     })
 
     return (

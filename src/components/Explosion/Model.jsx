@@ -1,12 +1,12 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import * as THREE from 'three';
-
+import {useSpring} from "react-spring/three";
 import {DRACOLoader} from "three/examples/jsm/loaders/DRACOLoader";
 import {GLTFLoader} from "three/examples/jsm/loaders/GLTFLoader";
 import {shader} from "./shaderMaterial";
-import {shader2} from "./shaderMaterial2";
 import {BufferGeometryUtils} from "three/examples/jsm/utils/BufferGeometryUtils";
 import {useFrame} from "react-three-fiber";
+import {getState, subscribe, useStore} from "../../utils/zustandStore";
 
 const processSurface = (v, j) => {
     let c = v.position;
@@ -105,9 +105,11 @@ const processSurface = (v, j) => {
     return {surface: vtemp, volume: vtemp1};
 };
 
+const sign = n => n === 0 ? 1 : n/Math.abs(n);
 
 
-const Model = ({mouseClientX}) => {
+
+const Model = () => {
 
     const material = useRef();
     const material1 = useRef();
@@ -129,6 +131,13 @@ const Model = ({mouseClientX}) => {
     const texturesUrl = texturesSource();
     const textures = useMemo(() => new THREE.CubeTextureLoader().load(texturesUrl), [texturesUrl]);
     textures.minFilter = THREE.LinearFilter;
+
+    const innerShader = useMemo(() => {
+        let shaderMat = new THREE.ShaderMaterial(shader);
+        let shaderMat1 = shaderMat.clone();
+        shaderMat1.uniforms.inside.value = 1;
+        return shaderMat1
+    }, []);
 
     const [{ss, ss1}, setS] = useState({ss: THREE.BufferGeometry, ss1: THREE.BufferGeometry});
 
@@ -175,37 +184,56 @@ const Model = ({mouseClientX}) => {
                     geoms,
                     false
                 );
-                s.computeBoundingSphere()
+                s.computeBoundingSphere();
 
                 let s1 = BufferGeometryUtils.mergeBufferGeometries(
                     geoms1,
                     false
                 );
-                s1.computeBoundingSphere()
+                s1.computeBoundingSphere();
                 setS({ss: s, ss1: s1});
             }
         );
     }, []);
-
-    useFrame(() => {
-        let targetMouseX = 2*(mouseClientX - window.innerWidth/2)/window.innerWidth;
-        let progress = Math.abs(targetMouseX)
-        material.current.uniforms.progress.value = progress;
-        material1.current.uniforms.progress.value = progress;
+//zustand Store
+    const mouseCoords = useRef(getState().mouseCoords);
+    useEffect(() => subscribe(scr => (mouseCoords.current = scr), state => state.mouseCoords));
+    const mouseX = useRef(0);
+    const mouseY = useRef(0);
+//explosion
+    const exploded = useStore(state => state.exploded)
+    const {progress} = useSpring({
+        progress: exploded ? 1 : 0
     });
 
+    const group = useRef();
+
+    useFrame(() => {
+        let targetMouseX = 2*(mouseCoords.current[0] - window.innerWidth/2)/window.innerWidth;
+        let targetMouseY = 2*(mouseCoords.current[1] - window.innerHeight/2)/window.innerHeight;
+        mouseX.current += (targetMouseX - mouseX.current)*0.05;
+        mouseY.current += (targetMouseY - mouseY.current)*0.05;
+        let ta = Math.abs(mouseX.current);
+        let taY = Math.abs(mouseY.current);
+        group.current.rotation.x = Math.PI/2 - taY*(2 - taY)*Math.PI * sign(mouseY.current);
+        group.current.rotation.y = Math.PI/2 - ta*(2 - ta)*Math.PI * sign(mouseX.current);
+        group.current.rotation.z = Math.PI/2 - ta*(2 - ta)*Math.PI * sign(mouseX.current);
+
+        material.current.uniforms.progress.value = progress.value;
+        material1.current.uniforms.progress.value = progress.value;
+    });
 
     return (
-        <>
+        <group ref={group}>
             <mesh>
                 <bufferGeometry attach="geometry" {...ss}/>
                 <shaderMaterial  ref={material} attach="material" args={[shader]} uniforms-tCube-value={textures} />
             </mesh>
             <mesh>
                 <bufferGeometry attach="geometry" {...ss1}/>
-                <shaderMaterial ref={material1} attach="material" args={[shader2]} uniforms-tCube-value={textures} />
+                <shaderMaterial ref={material1} attach="material" args={[innerShader]} uniforms-tCube-value={textures} />
             </mesh>
-        </>
+        </group>
     )
 };
 
