@@ -6,14 +6,18 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "d3-ease": "^1.0.6",
     "lodash": "^4.17.15",
     "postprocessing": "^6.13.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
+    "react-spring": "^9.0.0-beta.34",
     "react-three-fiber": "^4.0.23",
+    "react-use-gesture": "^7.0.15",
     "styled-components": "^5.0.1",
-    "three": "^0.115.0"
+    "three": "^0.115.0",
+    "zustand": "^2.2.3"
   },
   "scripts": {
     "start": "react-scripts start",

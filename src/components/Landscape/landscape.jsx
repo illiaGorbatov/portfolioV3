@@ -1,8 +1,7 @@
 import React, {Suspense, useState} from 'react';
 import {Canvas} from "react-three-fiber";
-import * as THREE from 'three';
-import Land from "./land/land";
-import LandscapeSky from "./sky/LandscapeSky";
+import Land from "./land";
+import LandscapeSky from "./LandscapeSky";
 
 const theta = Math.PI * (-0.03);
 const phi = 2 * Math.PI * (-.25);
