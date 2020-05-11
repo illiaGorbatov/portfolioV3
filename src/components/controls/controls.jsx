@@ -17,7 +17,7 @@ extend ({OrbitControls});
             enableRotate
             enablePan={false}
             maxDistance={100}
-            minDistance={5}
+            minDistance={1}
             minPolarAngle={Math.PI / 6}
             maxPolarAngle={Math.PI / 2}
         />
