@@ -3,6 +3,7 @@ import Model from "./Model";
 import Camera from "../Camera";
 import Stars from "./stars";
 import ExplosionCamera from "./ExplosionCamera";
+import CarLights from "../Road/CarLights";
 
 const ExplosionAllInOne = () => {
     return(
