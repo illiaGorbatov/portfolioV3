@@ -10,7 +10,6 @@ import Greeting from "./components/Landscape/MainPage/Greeting";
 import Header from "./components/HTMLComponents/NavMenu/Header";
 import {getState} from "./utils/zustandStore";
 import AboutMe from "./components/Landscape/MainPage/AboutMe";
-import Projects from "./components/Explosion/Projects/Projects";
 
 
 const GlobalStyles = createGlobalStyle`
@@ -91,7 +90,6 @@ const App = () => {
             <Wrapper>
                 <InitialCanvas/>
             </Wrapper>
-            <Projects/>
             {/*<Greeting/>*/}
             {/*<AboutMe/>*/}
             <Header switchNavMenu={switchNavMenu} isNavMenuOpened={isNavMenuOpened}/>
