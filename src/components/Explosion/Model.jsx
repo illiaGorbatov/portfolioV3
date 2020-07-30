@@ -222,7 +222,7 @@ const Model = () => {
         material.current.uniforms.progress.value = progress.value;
         material1.current.uniforms.progress.value = progress.value;
     });
-
+console.log('explosion')
     return (
         <group ref={group}>
             <mesh>

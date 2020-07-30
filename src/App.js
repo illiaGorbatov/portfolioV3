@@ -6,10 +6,9 @@ import Made from "./assets/fonts/MADE-EvolveSansLight.otf";
 import MadeEvo from "./assets/fonts/MADE-EvolveSansLightEVO.otf";
 import Anders from "./assets/fonts/Anders.ttf";
 import Garamond from "./assets/fonts/garamond.ttf";
-import Greeting from "./components/Landscape/MainPage/Greeting";
 import Header from "./components/HTMLComponents/NavMenu/Header";
 import {getState} from "./utils/zustandStore";
-import AboutMe from "./components/Landscape/MainPage/AboutMe";
+import TestButton from "./components/HTMLComponents/test";
 
 
 const GlobalStyles = createGlobalStyle`
@@ -76,22 +75,21 @@ const App = () => {
         getState().scroll(scrolled);
     };
 
-    const onMouseMoveHandler = e => {
-        getState().mouseMove([e.clientX, e.clientY])
-    }
     useEffect(() => {
+        const onMouseMoveHandler = e => {
+            getState().mouseMove([e.clientX, e.clientY])
+        }
         window.addEventListener('mousemove',onMouseMoveHandler);
         return(() => window.removeEventListener('mousemove',onMouseMoveHandler))
-    })
+    }, []);
 
     return (
         <>
             <GlobalStyles/>
             <Wrapper>
+                <TestButton/>
                 <InitialCanvas/>
             </Wrapper>
-            {/*<Greeting/>*/}
-            {/*<AboutMe/>*/}
             <Header switchNavMenu={switchNavMenu} isNavMenuOpened={isNavMenuOpened}/>
         </>
     );
