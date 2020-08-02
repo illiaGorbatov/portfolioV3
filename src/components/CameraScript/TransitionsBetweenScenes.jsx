@@ -18,34 +18,19 @@ const TransitionsBetweenScenes = () => {
         setRenderedScene(scene)
     }, []);
 
-    const {landscapeOpacity, explosionOpacity} = useSpring({
-        landscapeOpacity: scenes.currentScene === 'landscape' ? 1 : 0,
-        explosionOpacity: scenes.currentScene === 'explosion' ? 1 : 0,
-        roadOpacity: scenes.currentScene === 'road' ? 1 : 0,
-        config: {
-            clamp: true
-        },
-        onRest : () => {
-            if (scenes.currentScene === 'landscape') setRenderedScene('landscape');
-            if (scenes.currentScene === 'explosion') setRenderedScene('explosion');
-            if (scenes.currentScene === 'road') setRenderedScene('road');
-        }
-    }, [scenes]);
-
-    console.log(scenes, explosionPosition)
-
+console.log(explosionPosition)
     return (
         <Suspense fallback={null}>
-            {renderedScene === 'landscape' &&
-            <animated.group opacity={landscapeOpacity}>
+            {(renderedScene === 'landscape' || renderedScene === 'landscape & explosion') &&
+            <group>
                 <Land/>
-                <LandscapeSky/>
-            </animated.group>}
-            {renderedScene === 'explosion' &&
-            <animated.group opacity={explosionOpacity} position={explosionPosition}>
+                <LandscapeSky changeRenderedScene={changeRenderedScene}/>
+            </group>}
+            {(renderedScene === 'explosion' || renderedScene === 'landscape & explosion') &&
+            <group position={explosionPosition}>
                 <Model/>
                 <Stars/>
-            </animated.group>}
+            </group>}
             <MainCamera/>
         </Suspense>
     )

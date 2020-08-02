@@ -3,8 +3,9 @@ import * as THREE from 'three';
 import {SkyShader} from "./shaders/SkyShader";
 import {useFrame} from "react-three-fiber";
 import {getState, subscribe, useStore} from "../../utils/zustandStore";
+import {useSpring, animated} from "react-spring/three";
 
-const LandscapeSky = () => {
+const LandscapeSky = ({changeRenderedScene}) => {
 
     const scrolled = useRef(getState().scrolled);
     const scenes = useStore(state => state.scenes);
@@ -15,13 +16,16 @@ const LandscapeSky = () => {
 
     const material = useRef();
 
+    const [{opacity}, setOpacity] = useSpring(() => ({opacity: 1}));
     useEffect(() => {
         if (scenes.currentScene === 'explosion' && scenes.previousScene === 'landscape') {
             const sunPosition = material.current.uniforms.sunPosition.value;
-            const cameraPosition = [sunPosition[0], sunPosition[1], sunPosition[2] - 50];
+            const cameraPosition = [sunPosition[0], sunPosition[1], sunPosition[2] + 30];
             console.log(sunPosition, cameraPosition)
             setExplosionPosition(sunPosition)
             setCameraPosition(cameraPosition);
+            setOpacity({opacity: 0, onRest: () => changeRenderedScene('explosion')});
+            changeRenderedScene('landscape & explosion');
         }
     }, [scenes])
 
@@ -45,14 +49,15 @@ const LandscapeSky = () => {
     }, []);
 
     useFrame(() => {
-        render()
+        render();
     });
 
     return (
         <>
             <mesh>
                 <sphereBufferGeometry attach="geometry" args={[450000, 32, 15]}/>
-                <shaderMaterial ref={material} attach="material" args={[SkyShader]} side={THREE.BackSide}/>
+                <animated.shaderMaterial ref={material} attach="material" args={[SkyShader]} side={THREE.BackSide}
+                                         uniforms-opacity-value={opacity} transparent={true}/>
             </mesh>
         </>
     )

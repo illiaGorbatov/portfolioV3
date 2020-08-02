@@ -15,9 +15,12 @@ const Button = styled.div`
 const TestButton = () => {
 
     const setCurrentScene  = useStore(state => state.setCurrentScene);
+    const test = () => {
+        setCurrentScene({currentScene: 'explosion', previousScene: 'landscape'})
+    }
 
     return (
-        <Button onClick={() => setCurrentScene({currentScene: 'explosion', previousScene: 'landscape'})}/>
+        <Button onClick={test}/>
     )
 }
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useRef} from 'react';
 import * as THREE from 'three';
 import {carLightsFragment, carLightsVertex} from "./Shaders";
-import {LongRaceDistortion} from "./Distortions";
+import {LongRaceDistortion, turbulentDistortionStill} from "./Distortions";
 import {useFrame} from "react-three-fiber";
 import {getState, subscribe} from "../../utils/zustandStore";
 
@@ -43,7 +43,7 @@ const options = {
     length: 400,
     colors: [0xD856BF, 0x6750A2, 0xC247AC],
     fade: new THREE.Vector2(0, 0.6),
-    distortion: LongRaceDistortion
+    distortion: turbulentDistortionStill
 };
 
 

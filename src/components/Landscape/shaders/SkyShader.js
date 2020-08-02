@@ -7,7 +7,8 @@ export const SkyShader = {
         rayleigh: {value: 1},
         mieCoefficient: {value: 0.005},
         mieDirectionalG: {value: 0.8},
-        sunPosition: {value: new Vector3()}
+        sunPosition: {value: new Vector3()},
+        opacity: {value: 1.0}
     },
 
     vertexShader: [
@@ -94,6 +95,7 @@ export const SkyShader = {
 
         'uniform float luminance;',
         'uniform float mieDirectionalG;',
+        'uniform float opacity;',
 
         'const vec3 cameraPos = vec3( 0.0, 0.0, 0.0 );',
 
@@ -182,7 +184,7 @@ export const SkyShader = {
 
         '	vec3 retColor = pow( color, vec3( 1.0 / ( 1.2 + ( 1.2 * vSunfade ) ) ) );',
 
-        '	gl_FragColor = vec4( retColor, 1.0 );',
+        '	gl_FragColor = vec4( retColor, opacity );',
 
         '}'
     ].join('\n')

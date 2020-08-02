@@ -9,7 +9,8 @@ import {
     SMAAEffect, SMAAPreset,
 } from 'postprocessing'
 
-const Effects = () => {
+
+/*const Effects = () => {
     const { gl, scene, camera, size } = useThree()
     const smaa = useLoader(SMAAImageLoader)
     const composer = useMemo(() => {
@@ -28,6 +29,26 @@ const Effects = () => {
         composer.addPass(effectPass)
         return composer
     }, [camera, gl, scene, smaa])
+    useEffect(() => void composer.setSize(size.width, size.height), [composer, size])
+    return useFrame((_, delta) => composer.render(delta), 1)
+};*/
+const Effects = () => {
+    const { gl, scene, camera, size } = useThree()
+    const composer = useMemo(() => {
+        const composer = new EffectComposer(gl)
+        composer.addPass(new RenderPass(scene, camera))
+        const bloom = new BloomEffect({
+            luminanceThreshold: 0.2,
+            luminanceSmoothing: 0,
+            resolutionScale: 1
+        })
+        bloom.blendMode.opacity.value = 2
+        composer.addPass(new EffectPass(camera))
+        const effectPass = new EffectPass(camera, bloom)
+        effectPass.renderToScreen = true
+        composer.addPass(effectPass)
+        return composer
+    }, [camera, gl, scene])
     useEffect(() => void composer.setSize(size.width, size.height), [composer, size])
     return useFrame((_, delta) => composer.render(delta), 1)
 };
