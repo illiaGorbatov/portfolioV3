@@ -7,6 +7,7 @@ import {useStore} from "../../utils/zustandStore";
 import MainCamera from "./MainCamera";
 import Trackball from "../controls/trackballControls";
 import {useSpring, animated} from "react-spring/three";
+import Mod from "./Explosion/mod";
 
 const TransitionsBetweenScenes = () => {
 
@@ -28,7 +29,6 @@ console.log(explosionPosition)
             </group>}
             {(renderedScene === 'explosion' || renderedScene === 'landscape & explosion') &&*/}
             <group position={[0, 0, -10]}>
-                <Model/>
                 <Stars/>
             </group>
             <MainCamera/>
