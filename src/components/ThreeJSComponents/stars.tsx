@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react"
 import { useFrame } from "react-three-fiber"
 
-const lerp = (start, end, alpha) => start * (1 - alpha) + end * alpha
+const lerp = (start: number, end: number, alpha: number) => start * (1 - alpha) + end * alpha;
 
 const Stars = ({ count = 1000, xOff = 0, yOff = 0, zOff = 50 }) => {
 

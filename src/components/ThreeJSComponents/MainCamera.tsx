@@ -12,9 +12,9 @@ const MainCamera = () => {
     const ref = useRef();
     const {setDefaultCamera, camera} = useThree();
     // Make the camera known to the system
-    useEffect(() => void setDefaultCamera(ref.current), []);
+    useEffect(() => void setDefaultCamera(ref.current!), []);
 
-    const behavior = useRef('');
+    const behavior = useRef('radial');
     const rotation = useRef(0);
     const setCameraBehavior = () => {
         if (scenes.currentScene === 'explosion' && scenes.previousScene === 'landscape') {
@@ -39,6 +39,7 @@ const MainCamera = () => {
         }
     })
 
+    // @ts-ignore
     return <animated.perspectiveCamera ref={ref} position={position}/>
 }
 

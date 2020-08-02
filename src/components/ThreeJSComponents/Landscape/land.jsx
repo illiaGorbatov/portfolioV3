@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import {MainShader} from "./shaders/mainShader";
 import {useFrame, useLoader} from "react-three-fiber";
 import palette from '../textures/land/pallete.png';
-import {getState, subscribe} from "../../utils/zustandStore";
+import {getState, subscribe} from "../../../utils/zustandStore";
 
 const Land = () => {
 

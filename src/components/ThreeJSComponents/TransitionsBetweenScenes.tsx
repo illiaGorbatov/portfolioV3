@@ -1,8 +1,8 @@
 import React, {Suspense, useCallback, useState} from 'react';
-import Land from "../Landscape/land";
-import LandscapeSky from "../Landscape/LandscapeSky";
-import Model from "../Explosion/Model";
-import Stars from "../Explosion/stars";
+import Land from "./Landscape/land";
+import LandscapeSky from "./Landscape/LandscapeSky";
+import Model from "./Explosion/Model";
+import Stars from "./stars";
 import {useStore} from "../../utils/zustandStore";
 import MainCamera from "./MainCamera";
 import Trackball from "../controls/trackballControls";
@@ -21,16 +21,16 @@ const TransitionsBetweenScenes = () => {
 console.log(explosionPosition)
     return (
         <Suspense fallback={null}>
-            {(renderedScene === 'landscape' || renderedScene === 'landscape & explosion') &&
+          {/*  {(renderedScene === 'landscape' || renderedScene === 'landscape & explosion') &&
             <group>
                 <Land/>
                 <LandscapeSky changeRenderedScene={changeRenderedScene}/>
             </group>}
-            {(renderedScene === 'explosion' || renderedScene === 'landscape & explosion') &&
-            <group position={explosionPosition}>
+            {(renderedScene === 'explosion' || renderedScene === 'landscape & explosion') &&*/}
+            <group position={[0, 0, -10]}>
                 <Model/>
                 <Stars/>
-            </group>}
+            </group>
             <MainCamera/>
         </Suspense>
     )

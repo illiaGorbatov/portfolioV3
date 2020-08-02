@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import {carLightsFragment, carLightsVertex} from "./Shaders";
 import {LongRaceDistortion, turbulentDistortionStill} from "./Distortions";
 import {useFrame} from "react-three-fiber";
-import {getState, subscribe} from "../../utils/zustandStore";
+import {getState, subscribe} from "../../../utils/zustandStore";
 
 
 const random = base => {

@@ -1,41 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {createGlobalStyle} from "styled-components";
 import styled from "styled-components";
-import InitialCanvas from "./components/InitialCanvas";
-import Made from "./assets/fonts/MADE-EvolveSansLight.otf";
-import MadeEvo from "./assets/fonts/MADE-EvolveSansLightEVO.otf";
-import Anders from "./assets/fonts/Anders.ttf";
-import Garamond from "./assets/fonts/garamond.ttf";
+import InitialCanvas from "./components/ThreeJSComponents/InitialCanvas";
 import Header from "./components/HTMLComponents/NavMenu/Header";
 import {getState} from "./utils/zustandStore";
 import TestButton from "./components/HTMLComponents/test";
 
 
 const GlobalStyles = createGlobalStyle`
-    @font-face {
-        font-family: 'Made Evolve Sans Light';
-        font-style: normal;
-        font-weight: normal;
-        src: url(${Made});
-    };
-    @font-face {
-        font-family: 'Made Evolve Sans Light EVO';
-        font-style: normal;
-        font-weight: normal;
-        src: url(${MadeEvo});
-    };
-    @font-face {
-        font-family: "Anders";
-        src: url(${Anders});
-        font-style: normal;
-        font-weight: normal;
-    };
-    @font-face {
-        font-family: 'Garamond';
-        font-style: normal;
-        font-weight: normal;
-        src: url(${Garamond});
-    };
     * {
       box-sizing: border-box;
     };
@@ -70,13 +42,13 @@ const App = () => {
     const switchNavMenu = () => {
         openAndCloseNavMenu(!isNavMenuOpened)
     };
-    const onScrollHandler = (e, ref) => {
+    /*const onScrollHandler = (e, ref) => {
         let scrolled = window.scrollY / (ref.current.scrollHeight - window.innerHeight);
         getState().scroll(scrolled);
-    };
+    };*/
 
     useEffect(() => {
-        const onMouseMoveHandler = e => {
+        const onMouseMoveHandler = (e:  MouseEvent)  => {
             getState().mouseMove([e.clientX, e.clientY])
         }
         window.addEventListener('mousemove',onMouseMoveHandler);

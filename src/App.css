@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Made Evolve Sans Light';
+    font-style: normal;
+    font-weight: normal;
+    src: url("./assets/fonts/MADE-EvolveSansLight.otf");
+}
+@font-face {
+    font-family: 'Made Evolve Sans Light EVO';
+    font-style: normal;
+    font-weight: normal;
+    src: url("./assets/fonts/MADE-EvolveSansLightEVO.otf");
+}
+@font-face {
+    font-family: "Anders";
+    src: url("./assets/fonts/Anders.ttf");
+    font-style: normal;
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'Garamond';
+    font-style: normal;
+    font-weight: normal;
+    src: url("./assets/fonts/garamond.ttf");
+}

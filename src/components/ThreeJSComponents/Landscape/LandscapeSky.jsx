@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef} from 'react';
 import * as THREE from 'three';
 import {SkyShader} from "./shaders/SkyShader";
 import {useFrame} from "react-three-fiber";
-import {getState, subscribe, useStore} from "../../utils/zustandStore";
+import {getState, subscribe, useStore} from "../../../utils/zustandStore";
 import {useSpring, animated} from "react-spring/three";
 
 const LandscapeSky = ({changeRenderedScene}) => {
