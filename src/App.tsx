@@ -12,7 +12,6 @@ const GlobalStyles = createGlobalStyle`
       box-sizing: border-box;
     };
     body {
-      background-color: white;
       margin: 0;
       padding: 0;
       user-select: none;

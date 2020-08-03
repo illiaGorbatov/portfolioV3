@@ -10,9 +10,11 @@ const InitialCanvas = () => {
             style={{background: 'black'}}
             shadowMap
             onCreated={({scene}) => {
-                scene.background = new THREE.Color('rgb(21, 22, 22)')
+                scene.background = new THREE.Color(0x333333);
             }}
             concurrent={true}>
+            {/*<ambientLight intensity={1} color={0xffffff}/>*/}
+            <fog attach="fog" args={[0x333333, 10, 400]} />
             <TransitionsBetweenScenes/>
         </Canvas>
     );

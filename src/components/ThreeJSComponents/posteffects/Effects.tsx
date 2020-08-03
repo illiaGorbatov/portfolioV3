@@ -6,7 +6,9 @@ import {
     EffectComposer,
     EffectPass,
     RenderPass,
+    GodRaysEffect,
     SMAAEffect, SMAAPreset,
+    // @ts-ignore
 } from 'postprocessing'
 
 
@@ -32,7 +34,7 @@ import {
     useEffect(() => void composer.setSize(size.width, size.height), [composer, size])
     return useFrame((_, delta) => composer.render(delta), 1)
 };*/
-const Effects = () => {
+export const Bloom = () => {
     const { gl, scene, camera, size } = useThree()
     const composer = useMemo(() => {
         const composer = new EffectComposer(gl)
@@ -43,14 +45,13 @@ const Effects = () => {
             resolutionScale: 1
         })
         bloom.blendMode.opacity.value = 2
-        composer.addPass(new EffectPass(camera))
         const effectPass = new EffectPass(camera, bloom)
         effectPass.renderToScreen = true
         composer.addPass(effectPass)
+        console.log(composer)
         return composer
     }, [camera, gl, scene])
     useEffect(() => void composer.setSize(size.width, size.height), [composer, size])
     return useFrame((_, delta) => composer.render(delta), 1)
 };
 
-export default Effects

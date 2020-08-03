@@ -2,6 +2,7 @@
   "name": "3js",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://Harbatau.github.io/portfolioV3",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -17,17 +18,19 @@
     "install": "^0.13.0",
     "lodash": "^4.17.15",
     "npm": "^6.14.7",
+    "gh-pages": "^3.1.0",
     "postprocessing": "^6.13.2",
     "react": "^0.0.0-experimental-33c3af284",
     "react-device-detect": "^1.13.1",
     "react-dom": "^0.0.0-experimental-33c3af284",
+    "react-fast-compare": "^3.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-spring": "^9.0.0-rc.3",
     "react-three-fiber": "^4.2.18",
     "react-use-gesture": "^7.0.15",
     "styled-components": "^5.1.1",
-    "three": "^0.119.1",
+    "three": "^0.115.0",
     "typescript": "^3.9.7",
     "zustand": "^2.2.3"
   },
@@ -35,7 +38,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"

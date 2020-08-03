@@ -2,11 +2,11 @@ import {Vector3} from "three";
 
 export const SkyShader = {
     uniforms: {
-        luminance: {value: 1.1},
-        turbidity: {value: 2},
-        rayleigh: {value: 1},
-        mieCoefficient: {value: 0.005},
-        mieDirectionalG: {value: 0.8},
+        luminance: {value: 1},
+        turbidity: {value: 13},
+        rayleigh: {value: 1.2},
+        mieCoefficient: {value: 0.1},
+        mieDirectionalG: {value: 0.58},
         sunPosition: {value: new Vector3()},
         opacity: {value: 1.0}
     },
@@ -188,4 +188,4 @@ export const SkyShader = {
 
         '}'
     ].join('\n')
-};
+}

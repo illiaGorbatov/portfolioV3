@@ -8,13 +8,17 @@ import {useFrame} from "react-three-fiber";
 import {getState, subscribe, useStore} from "../../../utils/zustandStore";
 import { animated, useSpring } from 'react-spring/three';
 
+interface CustomMesh extends THREE.Mesh {
+    geometry: THREE.BufferGeometry
+}
+
 interface CustomObject extends THREE.Object3D {
-    children: Array<THREE.Mesh<THREE.BufferGeometry>>
+    children: CustomMesh[]
 }
 
 type StateType = {
-    ss: THREE.BufferGeometry | null,
-    ss1: THREE.BufferGeometry | null
+    innerMesh: THREE.BufferGeometry | null,
+    outerMesh: THREE.BufferGeometry | null
 }
 
 const processSurface = (object: CustomObject, index: number) => {
@@ -109,16 +113,16 @@ const processSurface = (object: CustomObject, index: number) => {
     return {surface, volume};
 };
 
-const sign = (n: number) => n === 0 ? 1 : n/Math.abs(n);
+const sign = (number: number) => number === 0 ? 1 : number/Math.abs(number);
 
 
 
-const Model = () => {
+const Model: React.FC = () => {
 
     const texturesSource = () => {
         let path = "img/newsky/";
         let format = ".jpg";
-        let urls1 = [
+        let url = [
             path + "px" + format,
             path + "nx" + format,
             path + "py" + format,
@@ -126,7 +130,7 @@ const Model = () => {
             path + "pz" + format,
             path + "nz" + format
         ];
-        return urls1
+        return url
     };
 
     const texturesUrl = texturesSource();
@@ -139,7 +143,7 @@ const Model = () => {
         return shaderMat
     }, []);
 
-    const [{ss, ss1}, setS] = useState<StateType>({ss: null, ss1: null});
+    const [{innerMesh, outerMesh}, setS] = useState<StateType>({innerMesh: null, outerMesh: null});
 
     useEffect(() => {
         const loader = new GLTFLoader();
@@ -147,7 +151,8 @@ const Model = () => {
         dracoLoader.setDecoderPath('/draco-gltf/');
         loader.setDRACOLoader(dracoLoader);
 
-        loader.load("ico-more.glb",
+       /* loader.load("ico-more.glb",*/
+        loader.load("withoutAll.glb",
             (gltf) => {
                 let voronoiObj: THREE.Object3D[] = [];//Maybe here!
                 gltf.scene.traverse((child) => {
@@ -173,33 +178,34 @@ const Model = () => {
                     if (v instanceof THREE.Mesh) return false;
                     else {
                         j++;
-                        let vtempo = processSurface(v as CustomObject, j);
-                        outerGeometry.push(vtempo.surface);
-                        innerGeometry.push(vtempo.volume);
+                        let processedSurface = processSurface(v as CustomObject, j);
+                        outerGeometry.push(processedSurface.surface);
+                        innerGeometry.push(processedSurface.volume);
                         return true;
                     }
                 });
 
-                let s = BufferGeometryUtils.mergeBufferGeometries(
+                let innerMesh = BufferGeometryUtils.mergeBufferGeometries(
                     innerGeometry,
                     false
                 );
-                s.computeBoundingSphere();
+                innerMesh.computeBoundingSphere();
 
-                let s1 = BufferGeometryUtils.mergeBufferGeometries(
+                let outerMesh = BufferGeometryUtils.mergeBufferGeometries(
                     outerGeometry,
                     false
                 );
-                s1.computeBoundingSphere();
-                setS({ss: s, ss1: s1});
+                outerMesh.computeBoundingSphere();
+                setS({innerMesh, outerMesh});
             }
         );
     }, []);
 //zustand Store
     const mouseCoords = useRef(getState().mouseCoords);
-    useEffect(() => subscribe(scr => mouseCoords.current = scr as number[], state => state.mouseCoords), []);
     const mouseX = useRef(0);
     const mouseY = useRef(0);
+    useEffect(() => subscribe(scr => mouseCoords.current = scr as number[], state => state.mouseCoords), []);
+
 //explosion
     const exploded = useStore(state => state.exploded)
     const {progress} = useSpring({
@@ -218,17 +224,17 @@ const Model = () => {
         group.current.rotation.x = Math.PI/2 - taY*(2 - taY)*Math.PI * sign(mouseY.current);
         group.current.rotation.y = Math.PI/2 - ta*(2 - ta)*Math.PI * sign(mouseX.current);
         group.current.rotation.z = Math.PI/2 - ta*(2 - ta)*Math.PI * sign(mouseX.current);
+        /*console.log(group.current.position)*/
     });
-    console.log(ss, ss1)
 
     return (
-        <group ref={group}>
+        <group ref={group} position={[0, 0, 0]}>
             <mesh>
-                <bufferGeometry attach="geometry" {...ss}/>
+                <bufferGeometry attach="geometry" {...innerMesh}/>
                 <animated.shaderMaterial  uniforms-progress-value={progress} attach="material" args={[shader]} uniforms-tCube-value={textures} />
             </mesh>
             <mesh>
-                <bufferGeometry attach="geometry" {...ss1}/>
+                <bufferGeometry attach="geometry" {...outerMesh}/>
                 <animated.shaderMaterial uniforms-progress-value={progress} attach="material" args={[innerShader]} uniforms-tCube-value={textures}/>
             </mesh>
         </group>
